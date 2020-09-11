@@ -36,18 +36,21 @@ app.post( '/api', ( req, res ) => {
 	res.json( data );
 } );
 
-app.get( '/api', ( req, res ) => {
-	database.find( {}, ( err, data ) => {
-		if ( err ) {
-			res.json( {
-				'status': 'Internal Error'
-			} );
-			res.end();
-			return;
-		}
-		base64_manager.convert( data );
-		res.json( data );
-	} );
+app.get( '/api/:command', ( req, res ) => {
+	if(req.params.command === 'all'){
+		database.find( {}, ( err, data ) => {
+			if ( err ) {
+				res.json( {
+					'status': 'Internal Error'
+				} );
+				res.end();
+				return;
+			}
+			base64_manager.convert( data );
+			res.json( data );
+		} );
+	}
+	
 } );
 
 app.get('/weather/:position', async (req, res)=>{

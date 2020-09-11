@@ -6,7 +6,7 @@ const getData = async function(){
 	// 	},
 	// 	body: ""
 	// };
-    const response = await fetch('/api');
+    const response = await fetch('/api/all');
     const data = await response.json();
     console.log(await data);
     return await data;
