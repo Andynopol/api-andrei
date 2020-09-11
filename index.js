@@ -10,9 +10,16 @@ const app = express();
 const database = new Datastore( 'data.db' );
 database.loadDatabase();
 
-const PORT = process.env.port || 3000;
+var port;
 
-app.listen( PORT, () => console.log( 'I am listening' ) );
+if(process.env.port){
+	port = process.env.port
+}
+else{
+	port = 3000;
+}
+
+app.listen( port, () => console.log( 'I am listening' ) );
 
 app.use( express.static( './UI' ) );
 app.use( express.json( {
