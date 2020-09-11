@@ -5,18 +5,26 @@ const getData = async function(){
 	// 		'Content-Type': 'application/json'
 	// 	},
 	// 	body: ""
-	// };
+    // };
+    try{
     const response = await fetch('/api/all');
     const data = await response.json();
     console.log(await data);
     return await data;
+    }
+    catch(err){
+        return undefined;
+    }
 }
 
 
 const main = async function(){
     const data = await getData();
     console.log(await data);
-    displayData(await data);
+    if(data){
+        displayData(await data);
+    }
+    
 }
 
 const displayData = function(data){
