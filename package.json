@@ -7,7 +7,8 @@
     "lib": "lib"
   },
   "scripts": {
-    "start": "./index.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -25,5 +26,5 @@
     "fs": "0.0.1-security",
     "nedb": "^1.8.0",
     "node-fetch": "^2.6.1"
-  },
+  }
 }
