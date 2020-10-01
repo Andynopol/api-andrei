@@ -27,7 +27,6 @@
 </head>
 
 <body>
-    <h1>Geolocate</h1>
 
     <div id="nav">
         <div class="link">
@@ -38,17 +37,13 @@
             <a href="./all/index.html">Logs</a>
         </div>
     </div>
-    <p>
-        latitude <span id="latitude">&deg;</span>
-        <br>
-        longitude <span id="longitude">&deg;</span>
 
-    </p>
+    <form id="form" action="" method="post">
+        <input type="file" name="files[]" id="input">
 
-    <div class="row">
-        <button id="geolocate" type="submit">Geolocate</button>
-        <input id="field" type="text">
-    </div>
+        <button type="submit" id="send">Send</button>
+    </form>
+
 
     <!-- <div id="link1" class="link visible"></div>
         <div id="link2" class="link dissable"></div> -->
