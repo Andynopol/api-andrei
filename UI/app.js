@@ -3,6 +3,7 @@
 
 const main = function(){
 	
+	const url = '/files';
 	const form = document.getElementById('form');
 
 	form.addEventListener('submit', function(e){
@@ -12,7 +13,14 @@ const main = function(){
 		const formData = new FormData();
 		formData.file = file;
 		console.log(formData);
-		fetch('/files', {method: "POST", body: formData});
+		const options = {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(formData)
+		};
+		fetch(url, options);
 	});
 	
 }
