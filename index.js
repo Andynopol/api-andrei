@@ -9,6 +9,9 @@ const app = express();
 
 const port = 3000;
 
+app.use( express.static( './UI' ) );
+
 app.listen(port, ()=>{
 	console.log(`Listening at port ${port}`);
-})
+});
+
