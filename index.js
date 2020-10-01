@@ -18,6 +18,23 @@ app.listen(port, ()=>{
 
 
 app.post('/files', (req, res)=>{
-	console.log(req.body);
-})
+	if(req.files){
+		console.log(req.files);
+
+		const files = req.files;
+		for(let item in files){
+			const file = files[item];
+			console.log(file);
+			const fileName = file.name;
+			console.log(fileName);
+			file.mv('./uploads/'+fileName, function(err){
+				if(err){
+					res.send(err.message);
+				}else{
+					res.end();
+				}
+			});
+		}
+	}
+});
 

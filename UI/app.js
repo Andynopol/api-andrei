@@ -8,17 +8,12 @@ const main = function(){
 
 	form.addEventListener('submit', function(e){
 		e.preventDefault();
-		const file = document.getElementById("input").files[0];
-		console.log(file);
-		const formData = new FormData();
-		formData.file = file;
-		console.log(formData);
+		const files = document.getElementById("input").files;
+		console.log(files);
+		// console.log(formData);
 		const options = {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(formData)
+			body: files,
 		};
 		fetch(url, options);
 	});
@@ -39,7 +34,7 @@ const main = function(){
 
 const setup = function(){
 	console.log('We are ready to go');
-	main();
+	// main();
 };
 
 
