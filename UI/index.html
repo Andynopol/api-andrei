@@ -38,10 +38,9 @@
         </div>
     </div>
 
-    <form id="form" action="" method="post">
-        <input type="file" name="files[]" id="input">
-
-        <button type="submit" id="send">Send</button>
+    <form id="form" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" id="files"/>
+        <input type="submit" value="Upload" name="submit" id="send"/>
     </form>
 
 
