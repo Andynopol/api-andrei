@@ -18,6 +18,7 @@ app.listen(port, ()=>{
 
 
 app.post('/files', (req, res)=>{
+	console.log(req.body);
 	if(req.files){
 		console.log(req.files);
 
@@ -31,7 +32,7 @@ app.post('/files', (req, res)=>{
 				if(err){
 					res.send(err.message);
 				}else{
-					res.end();
+					return res.sendStatus(200);
 				}
 			});
 		}

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="apple-touch-icon" sizes="57x57" href="res/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="res/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="res/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="res/apple-icon-72x72.png">
     <link rel="apple-touch-icon" sizes="76x76" href="res/apple-icon-76x76.png">
@@ -16,13 +16,12 @@
     <link rel="icon" type="image/png" sizes="192x192" href="res/android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="res/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="res/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="res/favicon-16x16.png"> -->
+    <link rel="icon" type="image/png" sizes="16x16" href="res/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="16x16" href="res/mars_black.jpg">
     <link rel="manifest" href="res/manifest.json">
     <link rel="stylesheet" href="style.css">
     <script src="lib/p5.min.js"></script>
-    <script src="app.js"></script>
-
+    <script src="./dist/bundle.js"></script>
     <title>Geolocate</title>
 </head>
 
@@ -38,12 +37,11 @@
         </div>
     </div>
 
-    <form id="form" method="post" action="/files" enctype="multipart/form-data">
-        <input type="file" name="file" id="input">
-        <input type="submit" value="Send" id="send">
-    </form>
+    <input type="file" name="fiels" id="fileInput" multiple>
 
-    
+    <button type="submit" id="upload">Upload</button>
+
+
 
 
 

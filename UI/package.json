@@ -1,0 +1,17 @@
+{
+  "name": "manager",
+  "version": "1.0.0",
+  "description": "managing resoruces",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nechita Dinu-Andrei",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.20.0"
+  }
+}
