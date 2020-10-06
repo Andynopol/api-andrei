@@ -16,26 +16,46 @@ app.listen(port, ()=>{
 	console.log(`Listening at port ${port}`);
 });
 
-
 app.post('/files', (req, res)=>{
-	console.log(req.body);
 	if(req.files){
-		console.log(req.files);
-
 		const files = req.files;
-		for(let item in files){
-			const file = files[item];
-			console.log(file);
-			const fileName = file.name;
-			console.log(fileName);
-			file.mv('./uploads/'+fileName, function(err){
-				if(err){
-					res.send(err.message);
-				}else{
-					return res.sendStatus(200);
+		console.log(typeof files);
+		try{
+			for(let item in files){
+				const file = files[item];
+				console.log(file);
+				const fileName = file.name;
+				file.mv('./uploads/'+fileName, function(err){
+					if(err){
+						console.log(err);
+						res.json({status: err});
+					}
+				});
+			}
+			res.json({statsu: "success"});
+		}catch(err){
+			try{
+				for(let item of files.files)
+				{
+					const fileName = item.name;
+					item.mv('./uploads/'+fileName, function(err){
+						if(err){
+							console.log(err);
+							res.json({status: err});
+						}
+					});
 				}
-			});
+				res.json({statsu: "success"});
+			}
+			catch(err){
+				res.json({statsu: "fail"});
+			}
 		}
+		
+		
+	}else{
+		res.end();
 	}
+	
 });
 

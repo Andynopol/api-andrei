@@ -1813,20 +1813,8 @@ const defineFormData = function(files){
 const HTTPRequest = async function(url, data , options){
 	console.log(options);
 	const response = await axios.post(url, data, options);
-	const json = await response.json();
-	console.log(await json);
+	console.log(await response.data);
 };
-
-
-
-
-
-
-
-
-
-
-
 
 
 const setup = function () {
