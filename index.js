@@ -16,7 +16,7 @@ app.listen(port, ()=>{
 	console.log(`Listening at port ${port}`);
 });
 
-app.get('/files/all', (req, res)=>{
+app.get('/files/:command', (req, res)=>{
 	
 });
 
