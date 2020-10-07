@@ -48,14 +48,14 @@ app.post('/files', (req, res)=>{
 				data.type = file.mimetype;
 				data.size = file.size;
 				data.md5 = file.md5;
-				data.timestamp = Date.now();
+				data.timestamp = Date.now();//deleteDuplicates({name: data.name, path:data.path});
+				console.log(docs);
 				console.log(data);
 				file.mv('./uploads/'+fileName, function(err){
 					if(err){
 						console.log(err);
 						res.json({status: err});
 						res.end();
-						return;
 					}
 				});
 				database.insert(data);
@@ -82,7 +82,6 @@ app.post('/files', (req, res)=>{
 							console.log(err);
 							res.json({status: err});
 							res.end();
-							return;
 						}
 					});
 					database.insert(data);
@@ -103,25 +102,18 @@ app.post('/files', (req, res)=>{
 	
 });
 
-const dbFind = function(name){
-	var data;
-	console.log('ceva');
-	database.find({ 'name': name}, function (err, docs) {
-		if(err){
-			console.log(err);
+const deleteDuplicates = function(query){
+	database.find(query, (err,docs)=>{
+		console.log("DOCS");
+		console.log(docs);
+		if(docs.length!==0){
+			dbDeleteMultiple(docs);
 		}
-		else{
-			console.log('ceva2');
-			console.log(docs);
-			data = docs;
-		}
-		
-	  });
-	return data;
+	});
 }
 
-const dbDeleteSingle = function(id, path){
-	database.remove({_id: id}, {}, (err, num)=>{
+const dbDeleteSingle = function(query, path){
+	database.remove(query, {}, (err, num)=>{
 		if(err){
 			console.log(err);
 		}
@@ -133,8 +125,13 @@ const dbDeleteSingle = function(id, path){
 }
 
 const dbDeleteMultiple = function(arr){
+	console.log(arr);
 	for(let i = 0; i<= arr.length; i++){
 		const item = arr[i];
-		dbDeleteSingle(item._id, item.path);
+		console.log('ITEM');
+		console.log(item);
+		if(item){
+			dbDeleteSingle({_id: item._id}, item.path);
+		}
 	}
 }
