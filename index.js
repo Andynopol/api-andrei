@@ -17,8 +17,27 @@ app.listen(port, ()=>{
 });
 
 app.get('/files/:command', (req, res)=>{
-	
+	if(req.params.command === 'all'){
+		
+	}
 });
+
+// app.get( '/api/:command', ( req, res ) => {
+// 	if(req.params.command === 'all'){
+// 		database.find( {}, ( err, data ) => {
+// 			if ( err ) {
+// 				res.json( {
+// 					'status': 'Internal Error'
+// 				} );
+// 				res.end();
+// 				return;
+// 			}
+// 			base64_manager.convert( data );
+// 			res.json( data );
+// 		} );
+// 	}
+	
+// } );
 
 app.post('/files', (req, res)=>{
 	if(req.files){
