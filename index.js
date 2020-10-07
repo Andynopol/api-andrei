@@ -4,6 +4,7 @@ const base64_manager = require( './lib/base64_manager' );
 const File = require( './lib/file' );
 const fetch = require('node-fetch');
 const upload = require('express-fileupload');
+// const db_manager = require('./lib/db_manager');
 // const name = require('./lib/name');
 
 // Init app
@@ -38,7 +39,7 @@ app.post('/files', (req, res)=>{
 		const files = req.files;
 		try{
 			for(let item in files){
-				const data = {};
+				const db = database.find({});
 				const file = files[item];
 				console.log("file1: "+file);
 				const fileName = file.name;
@@ -120,14 +121,14 @@ app.post('/files', (req, res)=>{
 	
 });
 
-const dbFind = function(name){
-	var data;
-	console.log('ceva')
-	database.find({ name: name}, function (err, docs) {
-		console.log('ceva2');
-		console.log(docs);
-	  });
-	return data;
+const dbFind = function(db, key, param){
+	const arr = [];
+	for(let item of db){
+		if(item[key] === param){
+			arr.append(item);
+		}
+	}
+	return arr;
 }
 
 const dbDeleteSingle = function(id, path){
