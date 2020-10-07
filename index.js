@@ -39,14 +39,12 @@ app.post('/files', (req, res)=>{
 		const files = req.files;
 		try{
 			for(let item in files){
-				const db = database.find({});
+				const data = {};
 				const file = files[item];
 				console.log("file1: "+file);
 				const fileName = file.name;
 				data.name = fileName;
 				data.path = './uploads/'+fileName;
-				const doc = dbFind(data.name);
-				console.log("doc:"+doc);
 				data.type = file.mimetype;
 				data.size = file.size;
 				data.md5 = file.md5;
@@ -74,22 +72,6 @@ app.post('/files', (req, res)=>{
 					const fileName = item.name;
 					data.name = fileName;
 					data.path = './uploads/'+fileName;
-					// database.findOne({name:fileName}, (err, doc)=>{
-					// 	if(err){
-					// 		console.log(err);
-					// 	}
-					// 	else{
-					// 		console.log(doc);
-					// 		if(doc){
-					// 			File.delete('uploads/'+fileName)
-					// 			database.remove({name:fileName}, {}, (err, num)=>{
-					// 				console.log(num);
-					// 			});
-					// 		}
-					// 	}
-					// });
-					const doc = dbFind(data.name);
-					console.log("doc:"+doc);
 					data.type = item.mimetype;
 					data.size = item.size;
 					data.md5 = item.md5;
@@ -121,14 +103,21 @@ app.post('/files', (req, res)=>{
 	
 });
 
-const dbFind = function(db, key, param){
-	const arr = [];
-	for(let item of db){
-		if(item[key] === param){
-			arr.append(item);
+const dbFind = function(name){
+	var data;
+	console.log('ceva');
+	database.find({ 'name': name}, function (err, docs) {
+		if(err){
+			console.log(err);
 		}
-	}
-	return arr;
+		else{
+			console.log('ceva2');
+			console.log(docs);
+			data = docs;
+		}
+		
+	  });
+	return data;
 }
 
 const dbDeleteSingle = function(id, path){
