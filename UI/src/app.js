@@ -36,7 +36,8 @@ const defineFormData = function(files){
 	console.log(files);
 	const formData = new FormData();
 	for(let i = 0; i<files.length; i++){
-		formData.append(`files`, files[i]);
+		const file = files[i];
+		formData.append(`files`, file);		
 	}
 	return formData;
 }

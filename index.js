@@ -16,6 +16,10 @@ app.listen(port, ()=>{
 	console.log(`Listening at port ${port}`);
 });
 
+app.get('/files/all', (req, res)=>{
+	
+});
+
 app.post('/files', (req, res)=>{
 	if(req.files){
 		const files = req.files;
