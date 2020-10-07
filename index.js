@@ -1,77 +1,115 @@
-// const { request } = require( 'express' );
-const express = require('express');
+const express = require( 'express' );
+const Datastore = require( 'nedb' );
+const base64_manager = require( './lib/base64_manager' );
+const File = require( './lib/file' );
+const fetch = require('node-fetch');
 const upload = require('express-fileupload');
+// const name = require('./lib/name');
 
 // Init app
 
+require('dotenv').config();
+
 const app = express();
+const database = new Datastore( 'data.db' );
+database.loadDatabase();
+
+
+const PORT = process.env.PORT || 3000;
+console.log(PORT);
+
+app.listen( PORT, () => console.log( 'I am listening' ) );
+
+app.use( express.static( './UI' ) );
+app.use( express.json( {
+	limit: '1mb'
+} ) );
 
 app.use(upload());
 
-const port = 3000;
-
-app.use( express.static( './UI' ) );
-
-app.listen(port, ()=>{
-	console.log(`Listening at port ${port}`);
-});
-
-app.get('/files/:command', (req, res)=>{
-	if(req.params.command === 'all'){
-		
-	}
-});
-
-// app.get( '/api/:command', ( req, res ) => {
+// app.get('/files/:command', (req, res)=>{
 // 	if(req.params.command === 'all'){
-// 		database.find( {}, ( err, data ) => {
-// 			if ( err ) {
-// 				res.json( {
-// 					'status': 'Internal Error'
-// 				} );
-// 				res.end();
-// 				return;
-// 			}
-// 			base64_manager.convert( data );
-// 			res.json( data );
-// 		} );
+		
 // 	}
-	
-// } );
+// });
 
 app.post('/files', (req, res)=>{
 	if(req.files){
 		const files = req.files;
-		console.log(typeof files);
 		try{
 			for(let item in files){
+				const data = {};
 				const file = files[item];
-				console.log(file);
+				console.log("file1: "+file);
 				const fileName = file.name;
+				data.name = fileName;
+				data.path = './uploads/'+fileName;
+				const doc = dbFind(data.name);
+				console.log("doc:"+doc);
+				data.type = file.mimetype;
+				data.size = file.size;
+				data.md5 = file.md5;
+				data.timestamp = Date.now();
+				console.log(data);
 				file.mv('./uploads/'+fileName, function(err){
 					if(err){
 						console.log(err);
 						res.json({status: err});
+						res.end();
+						return;
 					}
 				});
+				database.insert(data);
 			}
 			res.json({statsu: "success"});
+			res.end();
 		}catch(err){
 			try{
 				for(let item of files.files)
 				{
+					const data = {};
+					console.log("file2: "+item);
+					console.log("data: "+data);
 					const fileName = item.name;
+					data.name = fileName;
+					data.path = './uploads/'+fileName;
+					// database.findOne({name:fileName}, (err, doc)=>{
+					// 	if(err){
+					// 		console.log(err);
+					// 	}
+					// 	else{
+					// 		console.log(doc);
+					// 		if(doc){
+					// 			File.delete('uploads/'+fileName)
+					// 			database.remove({name:fileName}, {}, (err, num)=>{
+					// 				console.log(num);
+					// 			});
+					// 		}
+					// 	}
+					// });
+					const doc = dbFind(data.name);
+					console.log("doc:"+doc);
+					data.type = item.mimetype;
+					data.size = item.size;
+					data.md5 = item.md5;
+					data.timestamp = Date.now();
+					console.log(data);
 					item.mv('./uploads/'+fileName, function(err){
 						if(err){
 							console.log(err);
 							res.json({status: err});
+							res.end();
+							return;
 						}
 					});
+					database.insert(data);
 				}
 				res.json({statsu: "success"});
+				res.end();
 			}
 			catch(err){
-				res.json({statsu: "fail"});
+				res.json({statsu: err});
+				res.end();
 			}
 		}
 		
@@ -82,3 +120,31 @@ app.post('/files', (req, res)=>{
 	
 });
 
+const dbFind = function(name){
+	var data;
+	console.log('ceva')
+	database.find({ name: name}, function (err, docs) {
+		console.log('ceva2');
+		console.log(docs);
+	  });
+	return data;
+}
+
+const dbDeleteSingle = function(id, path){
+	database.remove({_id: id}, {}, (err, num)=>{
+		if(err){
+			console.log(err);
+		}
+		else{
+			console.log(num);
+			File.delete(path);
+		}
+	});
+}
+
+const dbDeleteMultiple = function(arr){
+	for(let i = 0; i<= arr.length; i++){
+		const item = arr[i];
+		dbDeleteSingle(item._id, item.path);
+	}
+}
