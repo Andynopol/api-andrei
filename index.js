@@ -1,18 +1,21 @@
 const express = require( 'express' );
 const Datastore = require( 'nedb' );
-const base64_manager = require( './lib/base64_manager' );
+// const base64_manager = require( './lib/base64_manager' );
 const File = require( './lib/file' );
-const fetch = require('node-fetch');
+// const fetch = require('node-fetch');
 const upload = require('express-fileupload');
 // const db_manager = require('./lib/db_manager');
 // const name = require('./lib/name');
 
 // Init app
 
+const INTERVAL = 1000 * 60 * 60 * 24;
+
 require('dotenv').config();
 
 const app = express();
 const database = new Datastore( 'data.db' );
+database.persistence.setAutocompactionInterval(INTERVAL);
 database.loadDatabase();
 
 
@@ -41,23 +44,22 @@ app.post('/files', (req, res)=>{
 			for(let item in files){
 				const data = {};
 				const file = files[item];
-				console.log("file1: "+file);
+				console.log(file);
 				const fileName = file.name;
 				data.name = fileName;
 				data.path = './uploads/'+fileName;
+				deleteDuplicates({path: data.path});
 				data.type = file.mimetype;
 				data.size = file.size;
 				data.md5 = file.md5;
-				data.timestamp = Date.now();//deleteDuplicates({name: data.name, path:data.path});
-				console.log(docs);
-				console.log(data);
-				file.mv('./uploads/'+fileName, function(err){
-					if(err){
-						console.log(err);
-						res.json({status: err});
-						res.end();
-					}
-				});
+				data.timestamp = Date.now();
+				File.write(data.path, file.data);
+				// file.mv(data.path, function(err){
+				// 	if(err){
+				// 		res.json({status: err});
+				// 		res.end();
+				// 	}
+				// });
 				database.insert(data);
 			}
 			res.json({statsu: "success"});
@@ -72,18 +74,13 @@ app.post('/files', (req, res)=>{
 					const fileName = item.name;
 					data.name = fileName;
 					data.path = './uploads/'+fileName;
+					deleteDuplicates({path: data.path});
 					data.type = item.mimetype;
 					data.size = item.size;
 					data.md5 = item.md5;
 					data.timestamp = Date.now();
 					console.log(data);
-					item.mv('./uploads/'+fileName, function(err){
-						if(err){
-							console.log(err);
-							res.json({status: err});
-							res.end();
-						}
-					});
+					File.write(data.path, item.data);
 					database.insert(data);
 				}
 				res.json({statsu: "success"});
@@ -99,39 +96,19 @@ app.post('/files', (req, res)=>{
 	}else{
 		res.end();
 	}
-	
 });
 
-const deleteDuplicates = function(query){
-	database.find(query, (err,docs)=>{
-		console.log("DOCS");
-		console.log(docs);
-		if(docs.length!==0){
-			dbDeleteMultiple(docs);
-		}
-	});
-}
+	
 
-const dbDeleteSingle = function(query, path){
+const deleteDuplicates = function(query){
 	database.remove(query, {}, (err, num)=>{
 		if(err){
 			console.log(err);
 		}
 		else{
-			console.log(num);
-			File.delete(path);
+			if(num!==0){
+				console.log(num);
+			}
 		}
 	});
-}
-
-const dbDeleteMultiple = function(arr){
-	console.log(arr);
-	for(let i = 0; i<= arr.length; i++){
-		const item = arr[i];
-		console.log('ITEM');
-		console.log(item);
-		if(item){
-			dbDeleteSingle({_id: item._id}, item.path);
-		}
-	}
 }
