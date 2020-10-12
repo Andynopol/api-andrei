@@ -31,11 +31,11 @@ app.use( express.json( {
 
 app.use(upload());
 
-// app.get('/files/:command', (req, res)=>{
-// 	if(req.params.command === 'all'){
+app.get('/files/:command', (req, res)=>{
+	if(req.params.command === 'all'){
 		
-// 	}
-// });
+	}
+});
 
 app.post('/files', (req, res)=>{
 	if(req.files){
