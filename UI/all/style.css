@@ -10,10 +10,14 @@
 
 #root {
     margin-top: 20px;
-    width: 300px;
+    width: 100%;
     border: solid 1px rgb(124, 112, 97);
     border-radius: 15px;
     user-select: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .col {
