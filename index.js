@@ -1,6 +1,6 @@
 const express = require( 'express' );
 const Datastore = require( 'nedb' );
-// const base64_manager = require( './lib/base64_manager' );
+const base64_manager = require( './lib/base64_manager' );
 const File = require( './lib/file' );
 // const fetch = require('node-fetch');
 const upload = require( 'express-fileupload' );
@@ -41,7 +41,7 @@ app.get( '/files/:command', ( req, res ) => {
 				res.end();
 				return;
 			}
-			console.log( data );
+			base64_manager.convert( data );
 			res.json( data );
 		} );
 	}
