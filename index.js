@@ -24,7 +24,7 @@ console.log( PORT );
 
 app.listen( PORT, () => console.log( 'I am listening' ) );
 
-app.use( express.static( './build' ) );
+app.use( express.static( './UI' ) );
 app.use( express.json( {
 	limit: '1mb'
 } ) );
