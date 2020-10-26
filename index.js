@@ -4,6 +4,7 @@ const base64_manager = require( './lib/base64_manager' );
 const File = require( './lib/file' );
 // const fetch = require('node-fetch');
 const upload = require( 'express-fileupload' );
+const cors = require( 'cors' );
 // const db_manager = require('./lib/db_manager');
 // const name = require('./lib/name');
 
@@ -22,7 +23,11 @@ database.loadDatabase();
 const PORT = process.env.PORT || 3000;
 console.log( PORT );
 
+
+app.use(cors());
+
 app.listen( PORT, () => console.log( 'I am listening' ) );
+
 
 app.use( express.static( './UI' ) );
 app.use( express.json( {
