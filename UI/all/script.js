@@ -15,8 +15,10 @@ const append = function ( data ) {
     const img_wrapper = document.createElement( 'div' );
     const img = document.createElement( 'img' );
     img.src = data.src;
+    img.alt = '';
     // img.width = "100";
     // img.height = "200";
+    img.style
     img_wrapper.appendChild( img );
     img_wrapper.classList.add( "col", "centerlize" );
     root.appendChild( img_wrapper );
