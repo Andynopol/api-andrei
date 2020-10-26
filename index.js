@@ -67,12 +67,6 @@ app.post( '/files', ( req, res ) => {
 				data.md5 = file.md5;
 				data.timestamp = Date.now();
 				File.write( data.path, file.data );
-				// file.mv(data.path, function(err){
-				// 	if(err){
-				// 		res.json({status: err});
-				// 		res.end();
-				// 	}
-				// });
 				database.insert( data );
 			}
 			res.json( {
