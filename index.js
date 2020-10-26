@@ -14,6 +14,8 @@ const INTERVAL = 1000 * 60 * 60 * 24;
 
 require( 'dotenv' ).config();
 
+
+
 const app = express();
 const database = new Datastore( 'data.db' );
 database.persistence.setAutocompactionInterval( INTERVAL );
