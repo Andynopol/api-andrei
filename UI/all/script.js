@@ -1,5 +1,5 @@
 const main = async function () {
-    const data = await getData( '/files/all' );
+    const data = await getData( './files/all' );
     iterate( data );
 }
 
