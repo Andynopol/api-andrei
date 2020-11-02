@@ -2,11 +2,8 @@ const express = require( 'express' );
 const Datastore = require( 'nedb' );
 const base64_manager = require( './lib/base64_manager' );
 const File = require( './lib/file' );
-// const fetch = require('node-fetch');
 const upload = require( 'express-fileupload' );
 const cors = require( 'cors' );
-// const db_manager = require('./lib/db_manager');
-// const name = require('./lib/name');
 
 // Init app
 
