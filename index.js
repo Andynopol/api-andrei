@@ -26,7 +26,7 @@ const PORT = process.env.PORT || 3000;
 console.log( PORT );
 
 
-app.use(cors());
+app.use( cors() );
 
 app.listen( PORT, () => console.log( 'I am listening' ) );
 
@@ -39,9 +39,11 @@ app.use( express.json( {
 app.use( upload() );
 
 app.get( '/files/:command', ( req, res ) => {
-	if ( req.params.command === 'all' ) {
+	if ( req.params.command === 'all' )
+	{
 		database.find( {}, ( err, data ) => {
-			if ( err ) {
+			if ( err )
+			{
 				res.json( {
 					'status': 'Internal Error'
 				} );
@@ -56,10 +58,13 @@ app.get( '/files/:command', ( req, res ) => {
 } );
 
 app.post( '/files', ( req, res ) => {
-	if ( req.files ) {
+	if ( req.files )
+	{
 		const files = req.files;
-		try {
-			for ( let item in files ) {
+		try
+		{
+			for ( let item in files )
+			{
 				const data = {};
 				const file = files[ item ];
 				console.log( file );
@@ -80,9 +85,12 @@ app.post( '/files', ( req, res ) => {
 				statsu: "success"
 			} );
 			res.end();
-		} catch ( err ) {
-			try {
-				for ( let item of files.files ) {
+		} catch ( err )
+		{
+			try
+			{
+				for ( let item of files.files )
+				{
 					const data = {};
 					console.log( "file2: " + item );
 					console.log( "data: " + data );
@@ -104,7 +112,8 @@ app.post( '/files', ( req, res ) => {
 					statsu: "success"
 				} );
 				res.end();
-			} catch ( err ) {
+			} catch ( err )
+			{
 				res.json( {
 					statsu: err
 				} );
@@ -113,7 +122,8 @@ app.post( '/files', ( req, res ) => {
 		}
 
 
-	} else {
+	} else
+	{
 		res.end();
 	}
 } );
@@ -122,12 +132,15 @@ app.post( '/files', ( req, res ) => {
 
 const deleteDuplicates = function ( query ) {
 	database.remove( query, {}, ( err, num ) => {
-		if ( err ) {
+		if ( err )
+		{
 			console.log( err );
-		} else {
-			if ( num !== 0 ) {
+		} else
+		{
+			if ( num !== 0 )
+			{
 				console.log( num );
 			}
 		}
 	} );
-}
+};
