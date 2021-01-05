@@ -16,11 +16,11 @@ const database = new Datastore( "data.db" );
 database.persistence.setAutocompactionInterval( INTERVAL );
 database.loadDatabase();
 
-const PORT = process.env.API_PORT || 3000;
+const PORT = process.env.API_PORT || 5000;
 
 app.use( cors() );
 
-app.listen( () => console.log( "I am listening" ) );
+app.listen( 5000, () => console.log( "I am listening" ) );
 
 app.use( express.static( "./UI" ) );
 app.use(
